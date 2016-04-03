@@ -1,6 +1,8 @@
 {-# OPTIONS_GHC -Wall #-}
 module HW04 where
 
+import Data.List
+
 newtype Poly a = P [a]
 
 -- Exercise 1 -----------------------------------------
@@ -10,8 +12,13 @@ x = P [0, 1]
 
 -- Exercise 2 ----------------------------------------
 
+canonicalForm :: (Num a, Eq a) => Poly a -> Poly a
+canonicalForm (P c) = P (dropWhileEnd (0==) c)
+
 instance (Num a, Eq a) => Eq (Poly a) where
-    (==) (P c1) (P c2) = takeWhile (/= 0) c1 == takeWhile (/= 0) c2
+    (==) p1 p2 = c1 == c2
+        where P c1 = canonicalForm p1
+              P c2 = canonicalForm p2
 
 -- Exercise 3 -----------------------------------------
 
