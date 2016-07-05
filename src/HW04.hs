@@ -15,10 +15,19 @@ x = P [0, 1]
 canonicalForm :: (Num a, Eq a) => Poly a -> Poly a
 canonicalForm (P c) = P (dropWhileEnd (0==) c)
 
+--instance (Num a, Eq a) => Eq (Poly a) where
+--    (==) p1 p2 = c1 == c2
+--        where P c1 = canonicalForm p1
+--              P c2 = canonicalForm p2
+
+isZero :: (Num a, Eq a) => Poly a -> Bool
+isZero (P []) = True
+isZero (P (x:xs)) = (x == 0) && isZero (P xs)
+
 instance (Num a, Eq a) => Eq (Poly a) where
-    (==) p1 p2 = c1 == c2
-        where P c1 = canonicalForm p1
-              P c2 = canonicalForm p2
+    (==) (P []) py = isZero py
+    (==) px (P []) = isZero px
+    (==) (P (x:xs)) (P (y:ys)) = (x == y) && ((P xs) == (P ys))
 
 -- Exercise 3 -----------------------------------------
 
